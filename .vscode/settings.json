@@ -1,0 +1,8 @@
+{
+  "editor.fontFamily": "dm, 'Menlo', 'Monaco', 'Courier New', monospace",
+  "editor.tabSize": 2,
+  "editor.fontSize": 12,
+  "editor.fontLigatures": true,
+  "eslint.run": "onSave",
+  "eslint.nodePath": "./node_modules"
+}
