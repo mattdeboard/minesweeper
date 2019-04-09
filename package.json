@@ -29,7 +29,8 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-redux": "^3.0.1",
     "prettier": "^1.16.4",
-    "query-string": "^6.2.0"
+    "query-string": "^6.2.0",
+    "reactstrap": "^8.0.0"
   },
   "license": "ISC"
 }
