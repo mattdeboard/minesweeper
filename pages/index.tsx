@@ -17,7 +17,7 @@ class Index extends React.PureComponent<Props> {
 
   render() {
     return (
-      <Container fluid style={{ width: "90%" }}>
+      <Container fluid className="pt-4" style={{ width: "90%" }}>
         <Jumbotron>
           <h1 className="text-center">Minesweeping</h1>
         </Jumbotron>
