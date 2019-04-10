@@ -1,42 +1,59 @@
 import React from "react";
 import { connect } from "react-redux";
-import { chunk } from "lodash";
 import { Table } from "reactstrap";
-import { GameConfig, State } from "../store";
-import Cell, {
-  Props as CellProps,
-  generateCellProps,
-} from "../components/Cell";
+import {
+  BombCell,
+  GameConfig,
+  State,
+  initializeGame,
+  setBombCell,
+  selectGameBoard,
+} from "../store";
+import Cell from "../components/Cell";
 
-function Index(props: GameConfig) {
-  const { numBombs, numRows, numCols } = props;
-  const rows = chunk(generateCellProps(numBombs, numRows * numCols), numRows);
-  return (
-    <Table>
-      <tbody>
-        {rows.map((row: CellProps[], rowIdx: number) => {
-          return (
-            <tr key={`row-${rowIdx}`}>
-              {row.map((cellProps, colIdx) => {
-                return (
-                  <td key={`row-${rowIdx}-cell-${colIdx}`}>
-                    <Cell
-                      adjacentBombCount={0}
-                      row={rowIdx}
-                      col={colIdx}
-                      {...cellProps}
-                    />
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </Table>
-  );
+interface Props {
+  gameBoard: BombCell[][];
+  initializeGame: typeof initializeGame;
+  setBombCell: typeof setBombCell;
+  selectGameBoard: typeof selectGameBoard;
 }
 
-export default connect((state: State) => ({
-  ...state.gameConfig,
-}))(Index);
+class Index extends React.PureComponent<Props & GameConfig> {
+  componentDidMount() {
+    this.props.initializeGame();
+  }
+
+  render() {
+    const { gameBoard } = this.props;
+    return (
+      <Table>
+        <tbody>
+          {gameBoard.map((row: BombCell[], rowIdx: number) => {
+            return (
+              <tr key={`row-${rowIdx}`}>
+                {row.map((cellProps, colIdx) => {
+                  return (
+                    <td key={`row-${rowIdx}-cell-${colIdx}`}>
+                      <Cell
+                        adjacentBombCount={cellProps.hasBomb ? "BOOM" : 0}
+                        row={rowIdx}
+                        col={colIdx}
+                      />
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    );
+  }
+}
+
+export default connect(
+  (state: State) => ({
+    gameBoard: selectGameBoard(state),
+  }),
+  { initializeGame, setBombCell },
+)(Index);
