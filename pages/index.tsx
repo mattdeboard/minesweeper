@@ -28,7 +28,7 @@ class Index extends React.PureComponent<Props & GameConfig> {
     return (
       <Table>
         <tbody>
-          {gameBoard.map((row: BombCell[], rowIdx: number) => {
+          {gameBoard.map((row, rowIdx) => {
             return (
               <tr key={`row-${rowIdx}`}>
                 {row.map((cellProps, colIdx) => {
