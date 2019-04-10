@@ -4,37 +4,37 @@ import { connect } from "react-redux";
 import { Button } from "reactstrap";
 import { difference, shuffle } from "lodash";
 import {
-  State,
   exposeAll,
   exposeCell,
   selectMineStatus,
   selectNeighbors,
   setExposedCells,
+  State,
 } from "../store";
 
 export interface Props {
   adjacentMinesCount: number;
+  col: number;
   exposeAll: typeof exposeAll;
   exposeCell: typeof exposeCell;
-  isMined: boolean;
-  row: number;
-  col: number;
   isExposed: boolean;
+  isMined: boolean;
   neighbors: string[];
+  row: number;
   setExposedCells: typeof setExposedCells;
 }
 
 function Cell(props: Props) {
   const {
     adjacentMinesCount,
+    col,
     exposeAll,
     exposeCell,
-    setExposedCells,
     isExposed,
-    row,
-    col,
     isMined,
     neighbors,
+    row,
+    setExposedCells,
   } = props;
   if (!isExposed) {
     return (

@@ -6,7 +6,7 @@ import {
   GameConfig,
   State,
   initializeGame,
-  setBombCell,
+  setMineCell,
   selectGameBoard,
 } from "../store";
 import Cell from "../components/Cell";
@@ -14,7 +14,7 @@ import Cell from "../components/Cell";
 interface Props {
   gameBoard: MineCell[][];
   initializeGame: typeof initializeGame;
-  setBombCell: typeof setBombCell;
+  setBombCell: typeof setMineCell;
   selectGameBoard: typeof selectGameBoard;
 }
 
@@ -51,5 +51,5 @@ export default connect(
   (state: State) => ({
     gameBoard: selectGameBoard(state),
   }),
-  { initializeGame, setBombCell },
+  { initializeGame, setBombCell: setMineCell },
 )(Index);

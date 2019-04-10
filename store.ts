@@ -10,10 +10,10 @@ export interface GameConfig {
 }
 export interface State {
   allExposed: boolean;
-  mineCells: string[];
   exposedCells: string[];
   gameBoard: MineCell[];
   gameConfig: GameConfig;
+  mineCells: string[];
 }
 
 export interface MineCell {
@@ -22,7 +22,6 @@ export interface MineCell {
 
 const initialState = {
   allExposed: false,
-  mineCells: [],
   exposedCells: [],
   gameBoard: [],
   gameConfig: {
@@ -30,6 +29,7 @@ const initialState = {
     numCols: 10,
     numRows: 10,
   },
+  mineCells: [],
 };
 
 export const reducer = (state: State = initialState, action: any) => {
