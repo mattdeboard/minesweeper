@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "checkJs": true,
+    "jsx": "react",
+    "lib": ["dom", "es2017"],
+    "noEmit": true,
+    "target": "es2017"
+  }
+}
