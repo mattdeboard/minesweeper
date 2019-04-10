@@ -25,7 +25,7 @@ class GameConfigForm extends React.PureComponent<Props> {
             id="numMines"
             name="mines"
             onChange={this.handleMines}
-            style={{ width: "20%" }}
+            style={{ minWidth: 80, width: "30%" }}
             type="textarea"
             value={numMines}
           />
@@ -37,6 +37,7 @@ class GameConfigForm extends React.PureComponent<Props> {
             id="dimensions"
             name="dimensions"
             onChange={this.handleDimensions}
+            style={{ minWidth: 100, width: "30%" }}
           >
             <option value="10">10x10</option>
             <option value="8">8x8</option>

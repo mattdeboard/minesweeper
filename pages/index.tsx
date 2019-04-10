@@ -17,12 +17,12 @@ class Index extends React.PureComponent<Props> {
 
   render() {
     return (
-      <Container className="p-2">
+      <Container fluid style={{ width: "100%" }} className="m-3 p-2">
         <Jumbotron>
           <h1 className="text-center">Minesweeping</h1>
         </Jumbotron>
         <Row>
-          <Col sm="6">
+          <Col>
             <GameConfigForm />
           </Col>
           <Col>
