@@ -223,7 +223,7 @@ export function generateCellProps(
   numMines: number,
   numCells: number,
 ): { isMined: boolean }[] {
-  const minesArray = [...Array(numMines + 1).keys()];
+  const minesArray = [...Array(numMines).keys()];
   return shuffle(
     [...Array(numCells).keys()].map(i => {
       return {
