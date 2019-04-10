@@ -39,7 +39,7 @@ function Cell(props: Props) {
   } = props;
   if (!isExposed) {
     return (
-      <td>
+      <td style={{ textAlign: "center" }}>
         <Button
           color="danger"
           onClick={() => {
@@ -60,7 +60,7 @@ function Cell(props: Props) {
     );
   }
   return (
-    <td style={{ padding: "6px 8px" }} key={`row-${row}-cell-${col}`}>
+    <td style={{ textAlign: "center" }} key={`row-${row}-cell-${col}`}>
       <span>{isMined ? "B" : adjacentMinesCount}</span>
     </td>
   );

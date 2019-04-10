@@ -17,7 +17,7 @@ interface Props {
 function Game(props: Props) {
   const { gameBoard } = props;
   return (
-    <Table>
+    <Table bordered>
       <tbody>
         {gameBoard.map((row, rowIdx) => {
           return (

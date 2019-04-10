@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import {
   setGameConfig,
   GameConfig,
@@ -42,6 +42,11 @@ class GameConfigForm extends React.PureComponent<Props> {
             <option value="8">8x8</option>
           </Input>
         </FormGroup>
+        <div className="my-2">
+          <Button onClick={() => this.props.initializeGame()}>
+            Restart Game
+          </Button>
+        </div>
       </Form>
     );
   }
