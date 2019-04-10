@@ -44,7 +44,7 @@ class GameConfigForm extends React.PureComponent<Props> {
           </Input>
         </FormGroup>
         <div className="my-2">
-          <Button onClick={() => this.props.initializeGame()}>
+          <Button color="primary" onClick={() => this.props.initializeGame()}>
             Restart Game
           </Button>
         </div>
