@@ -12,7 +12,7 @@ export interface State {
   allExposed: boolean;
   bombCells: string[];
   exposedCells: string[];
-  gameBoard: string[][];
+  gameBoard: BombCell[];
   gameConfig: GameConfig;
 }
 
@@ -152,7 +152,7 @@ export const selectGameBoard = createSelector(
 
 export const selectBombStatus = createSelector(
   (state: State) => state.bombCells,
-  (_, props: CellProps) => props.row,
+  (_: any, props: CellProps) => props.row,
   (_, props: CellProps) => props.col,
   (bombCells, row, col) => bombCells.includes(coordinateKey({ row, col })),
 );
@@ -192,7 +192,7 @@ export function getNeighbors(row: number, col: number) {
 }
 
 export const selectNeighbors = createSelector(
-  (_, props: CellProps) => props.row,
-  (_, props: CellProps) => props.col,
+  (_: any, props: CellProps) => props.row,
+  (_: any, props: CellProps) => props.col,
   getNeighbors,
 );
