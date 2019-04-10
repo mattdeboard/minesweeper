@@ -17,11 +17,11 @@ class Index extends React.PureComponent<Props> {
 
   render() {
     return (
-      <Container fluid style={{ width: "100%" }} className="m-3 p-2">
+      <Container fluid style={{ width: "90%" }}>
         <Jumbotron>
           <h1 className="text-center">Minesweeping</h1>
         </Jumbotron>
-        <Row>
+        <Row className="p-4">
           <Col>
             <GameConfigForm />
           </Col>
