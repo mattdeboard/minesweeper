@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { chunk, union } from "lodash";
-import { Props as CellProps, generateCellProps } from "./components/Cell";
+import { chunk, difference, shuffle, union } from "lodash";
+import { Props as CellProps } from "./components/Cell";
 import { createSelector } from "reselect";
 export interface GameConfig {
   numMines: number;
@@ -89,6 +89,7 @@ export const reducer = (state: State = initialState, action: any) => {
   }
 };
 
+// Actions
 export function setGameConfig(gameConfig: GameConfig) {
   return {
     type: "SET_GAME_CONFIG",
@@ -152,11 +153,34 @@ export const selectGameBoard = createSelector(
 
 export const selectMineStatus = createSelector(
   (state: State) => state.mineCells,
-  (_: any, props: CellProps) => props.row,
-  (_, props: CellProps) => props.col,
-  (mineCells, row, col) => mineCells.includes(coordinateKey({ row, col })),
+  (_: any, props: CellProps) => [props.row, props.col],
+  (mineCells, [row, col]) => mineCells.includes(coordinateKey({ row, col })),
 );
 
+export const selectNeighbors = createSelector(
+  (_: any, props: CellProps) => props.row,
+  (_: any, props: CellProps) => props.col,
+  getNeighbors,
+);
+
+export const selectAdjacentMinesCount = createSelector(
+  selectNeighbors,
+  (state: State) => state.gameConfig.numMines,
+  state => state.mineCells,
+  (neighbors, numMines, mineCells) => {
+    return numMines - difference(mineCells, neighbors).length;
+  },
+);
+
+export const selectIsExposed = createSelector(
+  (state: State) => state.allExposed,
+  state => state.exposedCells,
+  (_: any, props: CellProps) => [props.row, props.col],
+  (allExposed, exposedCells, [row, col]) =>
+    allExposed || exposedCells.includes(coordinateKey({ row, col })),
+);
+
+// Utils
 export function coordinateKey(coordinates: { row: number; col: number }) {
   return `${coordinates.row},${coordinates.col}`;
 }
@@ -191,8 +215,16 @@ export function getNeighbors(row: number, col: number) {
   }, []);
 }
 
-export const selectNeighbors = createSelector(
-  (_: any, props: CellProps) => props.row,
-  (_: any, props: CellProps) => props.col,
-  getNeighbors,
-);
+export function generateCellProps(
+  numMines: number,
+  numCells: number,
+): { isMined: boolean }[] {
+  const minesArray = [...Array(numMines).keys()];
+  return shuffle(
+    [...Array(numCells).keys()].map(i => {
+      return {
+        isMined: minesArray.includes(i) ? true : false,
+      };
+    }),
+  );
+}
