@@ -75,15 +75,16 @@ export function generateCellProps(
 
 export default connect(
   (state: State, ownProps: Props) => {
+    const neighbors = selectNeighbors(state, ownProps);
     return {
       adjacentMinesCount:
         state.gameConfig.numMines -
-        difference(state.mineCells, selectNeighbors(state, ownProps)).length,
+        difference(state.mineCells, neighbors).length,
       isMined: selectMineStatus(state, ownProps),
       isExposed:
         state.allExposed ||
         state.exposedCells.includes(`${ownProps.row},${ownProps.col}`),
-      neighbors: selectNeighbors(state, ownProps),
+      neighbors,
     };
   },
   { exposeAll, exposeCell, setExposedCells },
