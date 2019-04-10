@@ -1,10 +1,16 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import { setGameConfig, GameConfig, State as AppState } from "../store";
+import {
+  setGameConfig,
+  GameConfig,
+  initializeGame,
+  State as AppState,
+} from "../store";
 
 interface Props {
   gameConfig: GameConfig;
+  initializeGame: typeof initializeGame;
   setGameConfig: typeof setGameConfig;
 }
 
@@ -18,7 +24,7 @@ class GameConfigForm extends React.PureComponent<Props> {
           <Input
             id="numMines"
             name="mines"
-            onChange={this.handleSubmit}
+            onChange={this.handleMines}
             style={{ width: "20%" }}
             type="textarea"
             value={numMines}
@@ -48,13 +54,15 @@ class GameConfigForm extends React.PureComponent<Props> {
       numCols,
       numRows,
     });
+    this.props.initializeGame();
   };
 
-  handleSubmit = (e: { target: { id: string; value: string } }) => {
+  handleMines = (e: { target: { id: string; value: string } }) => {
     this.props.setGameConfig({
       ...this.props.gameConfig,
       [e.target.id]: parseInt(e.target.value),
     });
+    this.props.initializeGame();
   };
 }
 
@@ -62,5 +70,5 @@ export default connect(
   (state: AppState) => ({
     gameConfig: state.gameConfig,
   }),
-  { setGameConfig },
+  { initializeGame, setGameConfig },
 )(GameConfigForm);
