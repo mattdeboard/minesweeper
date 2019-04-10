@@ -31,14 +31,10 @@ class Index extends React.PureComponent<Props & GameConfig> {
           {gameBoard.map((row, rowIdx) => {
             return (
               <tr key={`row-${rowIdx}`}>
-                {row.map((cellProps, colIdx) => {
+                {row.map((_, colIdx) => {
                   return (
                     <td key={`row-${rowIdx}-cell-${colIdx}`}>
-                      <Cell
-                        adjacentBombCount={cellProps.hasBomb ? "BOOM" : 0}
-                        row={rowIdx}
-                        col={colIdx}
-                      />
+                      <Cell row={rowIdx} col={colIdx} />
                     </td>
                   );
                 })}
