@@ -51,6 +51,8 @@ export const reducer = (state: State = initialState, action: any) => {
 
       return {
         ...state,
+        exposedCells: [],
+        allExposed: false,
         mineCells,
         gameBoard: cells,
       };
