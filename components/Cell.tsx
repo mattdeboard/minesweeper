@@ -38,25 +38,31 @@ function Cell(props: Props) {
   } = props;
   if (!isExposed) {
     return (
-      <Button
-        onClick={() => {
-          if (isMined) {
-            return exposeAll();
-          }
+      <td>
+        <Button
+          color="danger"
+          onClick={() => {
+            if (isMined) {
+              return exposeAll();
+            }
 
-          exposeCell(row, col);
+            exposeCell(row, col);
 
-          if (!isMined && adjacentMinesCount === 0) {
-            setExposedCells(neighbors);
-          }
-        }}
-        color="danger"
-      >
-        :)
-      </Button>
+            if (adjacentMinesCount === 0) {
+              setExposedCells(neighbors);
+            }
+          }}
+        >
+          ❓
+        </Button>
+      </td>
     );
   }
-  return <span>{isMined ? "B" : adjacentMinesCount}</span>;
+  return (
+    <td style={{ padding: "6px 8px" }} key={`row-${row}-cell-${col}`}>
+      <span>{isMined ? "B" : adjacentMinesCount}</span>
+    </td>
+  );
 }
 
 export function generateCellProps(

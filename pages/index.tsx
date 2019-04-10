@@ -8,6 +8,7 @@ import {
   initializeGame,
   setMineCell,
   selectGameBoard,
+  coordinateKey,
 } from "../store";
 import Cell from "../components/Cell";
 
@@ -33,9 +34,11 @@ class Index extends React.PureComponent<Props & GameConfig> {
               <tr key={`row-${rowIdx}`}>
                 {row.map((_, colIdx) => {
                   return (
-                    <td key={`row-${rowIdx}-cell-${colIdx}`}>
-                      <Cell row={rowIdx} col={colIdx} />
-                    </td>
+                    <Cell
+                      key={coordinateKey({ row: rowIdx, col: colIdx })}
+                      row={rowIdx}
+                      col={colIdx}
+                    />
                   );
                 })}
               </tr>
