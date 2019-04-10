@@ -1,58 +1,40 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Table } from "reactstrap";
-import {
-  MineCell,
-  GameConfig,
-  State,
-  initializeGame,
-  setMineCell,
-  selectGameBoard,
-  coordinateKey,
-} from "../store";
-import Cell from "../components/Cell";
+import { Container, Jumbotron, Row, Col } from "reactstrap";
+import { initializeGame } from "../store";
+import Game from "../components/Game";
+import GameConfigForm from "../components/GameConfigForm";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 interface Props {
-  gameBoard: MineCell[][];
   initializeGame: typeof initializeGame;
-  setBombCell: typeof setMineCell;
-  selectGameBoard: typeof selectGameBoard;
 }
 
-class Index extends React.PureComponent<Props & GameConfig> {
+class Index extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.initializeGame();
   }
 
   render() {
-    const { gameBoard } = this.props;
     return (
-      <Table>
-        <tbody>
-          {gameBoard.map((row, rowIdx) => {
-            return (
-              <tr key={`row-${rowIdx}`}>
-                {row.map((_, colIdx) => {
-                  return (
-                    <Cell
-                      key={coordinateKey({ row: rowIdx, col: colIdx })}
-                      row={rowIdx}
-                      col={colIdx}
-                    />
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <Container className="p-2">
+        <Jumbotron>
+          <h1 className="text-center">Minesweeping</h1>
+        </Jumbotron>
+        <Row>
+          <Col sm="6">
+            <GameConfigForm />
+          </Col>
+          <Col>
+            <Game />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
 
 export default connect(
-  (state: State) => ({
-    gameBoard: selectGameBoard(state),
-  }),
-  { initializeGame, setBombCell: setMineCell },
+  null,
+  { initializeGame },
 )(Index);

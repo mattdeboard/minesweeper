@@ -3,11 +3,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { chunk, difference, shuffle, union } from "lodash";
 import { Props as CellProps } from "./components/Cell";
 import { createSelector } from "reselect";
+
 export interface GameConfig {
   numMines: number;
   numRows: number;
   numCols: number;
 }
+
 export interface State {
   allExposed: boolean;
   exposedCells: string[];
