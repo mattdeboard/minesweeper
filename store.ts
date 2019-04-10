@@ -4,29 +4,29 @@ import { chunk, union } from "lodash";
 import { Props as CellProps, generateCellProps } from "./components/Cell";
 import { createSelector } from "reselect";
 export interface GameConfig {
-  numBombs: number;
+  numMines: number;
   numRows: number;
   numCols: number;
 }
 export interface State {
   allExposed: boolean;
-  bombCells: string[];
+  mineCells: string[];
   exposedCells: string[];
-  gameBoard: BombCell[];
+  gameBoard: MineCell[];
   gameConfig: GameConfig;
 }
 
-export interface BombCell {
-  hasBomb: boolean;
+export interface MineCell {
+  isMined: boolean;
 }
 
 const initialState = {
   allExposed: false,
-  bombCells: [],
+  mineCells: [],
   exposedCells: [],
   gameBoard: [],
   gameConfig: {
-    numBombs: 10,
+    numMines: 10,
     numCols: 10,
     numRows: 10,
   },
@@ -35,12 +35,12 @@ const initialState = {
 export const reducer = (state: State = initialState, action: any) => {
   switch (action.type) {
     case "INIT_GAME": {
-      const { numBombs, numRows, numCols } = state.gameConfig;
-      const cells = generateCellProps(numBombs, numRows * numCols);
-      const bombCells = cells.reduce((acc: string[], cell, idx) => {
+      const { numMines, numRows, numCols } = state.gameConfig;
+      const cells = generateCellProps(numMines, numRows * numCols);
+      const mineCells = cells.reduce((acc: string[], cell, idx) => {
         const coordKey = coordinateKey(oneDToTwoD(idx, numCols));
 
-        if (cell.hasBomb) {
+        if (cell.isMined) {
           return acc.concat(coordKey);
         }
 
@@ -49,7 +49,7 @@ export const reducer = (state: State = initialState, action: any) => {
 
       return {
         ...state,
-        bombCells,
+        mineCells,
         gameBoard: cells,
       };
     }
@@ -69,7 +69,7 @@ export const reducer = (state: State = initialState, action: any) => {
     case "SET_BOMB_CELL":
       return {
         ...state,
-        bombCells: union(state.bombCells, [action.coordinates]),
+        mineCells: union(state.mineCells, [action.coordinates]),
       };
 
     case "SET_EXPOSED_CELLS":
@@ -103,7 +103,7 @@ export function exposeCell(row: number, col: number) {
   };
 }
 
-export function setBombCell(row: number, col: number) {
+export function setMineCell(row: number, col: number) {
   return {
     type: "SET_BOMB_CELL",
     coordinates: `${row},${col}`,
@@ -132,10 +132,10 @@ export function initializeStore(state: State = initialState) {
 }
 
 // Selectors
-export const selectCells = createSelector<State, number, number, BombCell[]>(
-  state => state.gameConfig.numBombs,
+export const selectCells = createSelector<State, number, number, MineCell[]>(
+  state => state.gameConfig.numMines,
   state => state.gameConfig.numRows * state.gameConfig.numCols,
-  (numBombs, numCells) => generateCellProps(numBombs, numCells),
+  (numMines, numCells) => generateCellProps(numMines, numCells),
 );
 
 export const selectCellChunks = createSelector(
@@ -150,11 +150,11 @@ export const selectGameBoard = createSelector(
   (numCols, gameBoard) => chunk(gameBoard, numCols),
 );
 
-export const selectBombStatus = createSelector(
-  (state: State) => state.bombCells,
+export const selectMineStatus = createSelector(
+  (state: State) => state.mineCells,
   (_: any, props: CellProps) => props.row,
   (_, props: CellProps) => props.col,
-  (bombCells, row, col) => bombCells.includes(coordinateKey({ row, col })),
+  (mineCells, row, col) => mineCells.includes(coordinateKey({ row, col })),
 );
 
 export function coordinateKey(coordinates: { row: number; col: number }) {

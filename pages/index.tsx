@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Table } from "reactstrap";
 import {
-  BombCell,
+  MineCell,
   GameConfig,
   State,
   initializeGame,
@@ -12,7 +12,7 @@ import {
 import Cell from "../components/Cell";
 
 interface Props {
-  gameBoard: BombCell[][];
+  gameBoard: MineCell[][];
   initializeGame: typeof initializeGame;
   setBombCell: typeof setBombCell;
   selectGameBoard: typeof selectGameBoard;

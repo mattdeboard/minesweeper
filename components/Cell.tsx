@@ -7,16 +7,16 @@ import {
   State,
   exposeAll,
   exposeCell,
-  selectBombStatus,
+  selectMineStatus,
   selectNeighbors,
   setExposedCells,
 } from "../store";
 
 export interface Props {
-  adjacentBombCount: number;
+  adjacentMinesCount: number;
   exposeAll: typeof exposeAll;
   exposeCell: typeof exposeCell;
-  hasBomb: boolean;
+  isMined: boolean;
   row: number;
   col: number;
   isExposed: boolean;
@@ -24,33 +24,29 @@ export interface Props {
   setExposedCells: typeof setExposedCells;
 }
 
-export interface BombCell {
-  hasBomb: boolean;
-}
-
 function Cell(props: Props) {
   const {
-    adjacentBombCount,
+    adjacentMinesCount,
     exposeAll,
     exposeCell,
     setExposedCells,
     isExposed,
     row,
     col,
-    hasBomb,
+    isMined,
     neighbors,
   } = props;
   if (!isExposed) {
     return (
       <Button
         onClick={() => {
-          if (hasBomb) {
+          if (isMined) {
             return exposeAll();
           }
 
           exposeCell(row, col);
 
-          if (!hasBomb && adjacentBombCount === 0) {
+          if (!isMined && adjacentMinesCount === 0) {
             setExposedCells(neighbors);
           }
         }}
@@ -60,18 +56,18 @@ function Cell(props: Props) {
       </Button>
     );
   }
-  return <span>{hasBomb ? "B" : adjacentBombCount}</span>;
+  return <span>{isMined ? "B" : adjacentMinesCount}</span>;
 }
 
 export function generateCellProps(
-  numBombs: number,
+  numMines: number,
   numCells: number,
-): { hasBomb: boolean }[] {
-  const bombArray = [...Array(numBombs).keys()];
+): { isMined: boolean }[] {
+  const minesArray = [...Array(numMines).keys()];
   return shuffle(
     [...Array(numCells).keys()].map(i => {
       return {
-        hasBomb: bombArray.includes(i) ? true : false,
+        isMined: minesArray.includes(i) ? true : false,
       };
     }),
   );
@@ -80,10 +76,10 @@ export function generateCellProps(
 export default connect(
   (state: State, ownProps: Props) => {
     return {
-      adjacentBombCount:
-        state.gameConfig.numBombs -
-        difference(state.bombCells, selectNeighbors(state, ownProps)).length,
-      hasBomb: selectBombStatus(state, ownProps),
+      adjacentMinesCount:
+        state.gameConfig.numMines -
+        difference(state.mineCells, selectNeighbors(state, ownProps)).length,
+      isMined: selectMineStatus(state, ownProps),
       isExposed:
         state.allExposed ||
         state.exposedCells.includes(`${ownProps.row},${ownProps.col}`),
