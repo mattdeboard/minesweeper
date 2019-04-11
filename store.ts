@@ -70,12 +70,6 @@ export const reducer = (state: State = initialState, action: any) => {
         exposedCells: union(state.exposedCells, [action.coordinates]),
       };
 
-    case "SET_BOMB_CELL":
-      return {
-        ...state,
-        mineCells: union(state.mineCells, [action.coordinates]),
-      };
-
     case "SET_EXPOSED_CELLS":
       return {
         ...state,
@@ -104,13 +98,6 @@ export function setGameConfig(gameConfig: GameConfig) {
 export function exposeCell(row: number, col: number) {
   return {
     type: "EXPOSE_CELL",
-    coordinates: `${row},${col}`,
-  };
-}
-
-export function setMineCell(row: number, col: number) {
-  return {
-    type: "SET_BOMB_CELL",
     coordinates: `${row},${col}`,
   };
 }
@@ -187,10 +174,6 @@ export const selectIsExposed = createSelector(
 // Utils
 export function coordinateKey(coordinates: { row: number; col: number }) {
   return `${coordinates.row},${coordinates.col}`;
-}
-
-export function coordsFromKey(key: string) {
-  return key.split(",").map(s => parseInt(s));
 }
 
 export function oneDToTwoD(i: number, width: number) {

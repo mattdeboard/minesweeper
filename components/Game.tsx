@@ -1,13 +1,7 @@
 import * as React from "react";
 import { Table } from "reactstrap";
 import { connect } from "react-redux";
-import {
-  coordinateKey,
-  MineCell,
-  selectGameBoard,
-  setMineCell,
-  State,
-} from "../store";
+import { coordinateKey, MineCell, selectGameBoard, State } from "../store";
 import Cell from "../components/Cell";
 
 interface Props {
@@ -39,9 +33,6 @@ function Game(props: Props) {
   );
 }
 
-export default connect(
-  (state: State) => ({
-    gameBoard: selectGameBoard(state),
-  }),
-  { setMineCell },
-)(Game);
+export default connect((state: State) => ({
+  gameBoard: selectGameBoard(state),
+}))(Game);
